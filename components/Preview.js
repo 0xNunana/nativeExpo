@@ -4,7 +4,7 @@ import React from 'react'
 const Preview = ({ press, look }) => {
     return (
         <TouchableOpacity onPress={press}>
-            <Text style={{ paddingHorizontal: 10, paddingVertical: 5, fontWeight: 'bold', fontSize: 20 }}>{look.pal}</Text>
+            <Text style={{ paddingHorizontal: 10, paddingVertical: 5, fontWeight: 'bold', fontSize: 20 }}>{look.paletteName}</Text>
             <FlatList
                 data={look.colors.slice(0, 5)}
                 keyExtractor={item => item.colorName}

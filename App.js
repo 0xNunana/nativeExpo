@@ -13,7 +13,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name='Home' component={Home} />
-        <Stack.Screen name='Display' component={ColorPal} options={({ route }) => ({ title: route.params.pal })} />
+        <Stack.Screen name='Display' component={ColorPal} options={({ route }) => ({ title: route.params.paletteName })} />
       </Stack.Navigator>
 
     </NavigationContainer>
