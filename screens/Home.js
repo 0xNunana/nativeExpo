@@ -1,9 +1,18 @@
-import { StyleSheet, Text, View, TouchableOpacity, FlatList, SafeAreaView, RefreshControl } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, FlatList, SafeAreaView, TextInput, ScrollView, Switch } from 'react-native'
+import { Picker } from '@react-native-picker/picker' //for selection
 import React, { useCallback, useState, useEffect } from 'react'
 import Preview from '../components/Preview';
 import ColorBox from '../components/ColorBox';
 //import { TouchableOpacity } from 'react-native-gesture-handler'
 
+
+const FOODS = [
+    '3ml',
+    '6ml',
+    '12ml',
+    '50ml',
+    '100ml'
+]
 
 const Home = ({ navigation }) => {
     const [data, setData] = useState([])
@@ -47,21 +56,53 @@ const Home = ({ navigation }) => {
         [],
     )
 
-
+    const [isEnabled, setIsEnabled] = useState(false);
+    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
     return (
-        <SafeAreaView >
-            <FlatList
-                data={data}
-                keyExtractor={item => item.paletteName}
-                refreshing={isRefreshing}
-                onRefresh={handleRefresh}
-                renderItem={({ item }) =>
-                    <Preview press={() => navigation.navigate('Display', item)} look={item} />}
+        <SafeAreaView>
 
-            />
-            <View >
-                <View style={{}}>
+            <ScrollView style={{ marginBottom: 35 }}>
+                <View style={{ paddingHorizontal: 10 }}>
+                    <Text>Input Name</Text>
+                    <TextInput style={{ height: 50, elevation: 3, paddingLeft: 10 }} />
+
+                </View>
+                <View style={{ paddingHorizontal: 10 }}>
+
+                    <Text>Input Phone Number</Text>
+                    <TextInput style={{ height: 50, elevation: 3, paddingLeft: 10 }} keyboardType='numeric' />
+                </View>
+                <View style={{ paddingHorizontal: 10 }}>
+
+                    <Text>Input Password</Text>
+                    <TextInput style={{ height: 50, elevation: 3, paddingLeft: 10 }} secureTextEntry={true} />
+                </View>
+                <View>
+                    <Text>off</Text>
+                    <Switch onValueChange={toggleSwitch}
+                        value={isEnabled} trackColor={{ false: '#767577', true: '#81b0ff' }}
+                        thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'} />
+                    <Text>ON</Text>
+                </View>
+
+                <Text style={{ fontWeight: 'bold', fontSize: 20, paddingHorizontal: 15, paddingTop: 15, }}>Choose a size</Text>
+                <Picker
+                    style={{ elevation: 3, marginHorizontal: 10 }}
+
+                    dropdownIconColor='green'
+                    dropdownIconRippleColor='red'
+                    prompt='Select a size'
+                >
+                    {FOODS.map(food => (
+                        <Picker.Item label={food} value={food} />
+                    ))}
+                </Picker>
+
+
+
+
+                <View style={{ paddingHorizontal: 10 }}>
                     <Text style={{ fontSize: 20, fontWeight: 'bold', }}> Counting Machine</Text>
                     <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Count:{count}</Text>
                 </View>
@@ -75,7 +116,17 @@ const Home = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
 
-            </View>
+            </ScrollView>
+            <FlatList
+                data={data}
+                keyExtractor={item => item.paletteName}
+                refreshing={isRefreshing}
+                onRefresh={handleRefresh}
+                renderItem={({ item }) =>
+                    <Preview press={() => navigation.navigate('Display', item)} look={item} />}
+
+            />
+
 
 
         </SafeAreaView>
