@@ -10,8 +10,12 @@ const Preview = ({ press, look }) => {
                 keyExtractor={item => item.colorName}
                 horizontal={true}
                 renderItem={({ item }) =>
-                    <View style={{ backgroundColor: item.hexCode, height: 50, width: 50, marginHorizontal: 10, marginBottom: 30 }} />
-
+                    <View style={{ backgroundColor: item.hexCode, height: 50, width: 50, marginHorizontal: 10, marginBottom: 30, elevation: 3, borderRadius: 5 }} />
+                    //elevation is to give a shadow in android
+                    //in ios, use shadowColor: '#000',
+                    //shadowOffset: { width: 0, height: 1 },
+                    //shadowOpacity: 0.3,
+                    //shadowRadius: 1,
 
                 }
 
