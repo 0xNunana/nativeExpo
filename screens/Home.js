@@ -14,7 +14,8 @@ const FOODS = [
     '100ml'
 ]
 
-const Home = ({ navigation }) => {
+const Home = ({ navigation, route }) => {
+    const newest = route.params ? route.params.newPalette : undefined
     const [data, setData] = useState([])
     const [isRefreshing, setIsRefreshing] = useState(false)
     const colorFetcher = useCallback(
@@ -34,6 +35,11 @@ const Home = ({ navigation }) => {
 
         colorFetcher()
     }, [])
+    useEffect(() => {
+        if (newest) {
+            setData(data => [newest, ...data])
+        }
+    }, [newest])
     const handleRefresh = useCallback(async () => {
         setIsRefreshing(true)
         await colorFetcher()
@@ -56,13 +62,13 @@ const Home = ({ navigation }) => {
         [],
     )
 
-    const [isEnabled, setIsEnabled] = useState(false);
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+    // const [isEnabled, setIsEnabled] = useState(false);
+    // const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
     return (
         <SafeAreaView>
 
-            <ScrollView style={{ marginBottom: 35 }}>
+            {/* <ScrollView style={{ marginBottom: 35 }}>
                 <View style={{ paddingHorizontal: 10 }}>
                     <Text>Input Name</Text>
                     <TextInput style={{ height: 50, elevation: 3, paddingLeft: 10 }} />
@@ -116,12 +122,15 @@ const Home = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
 
-            </ScrollView>
+            </ScrollView> */}
             <FlatList
                 data={data}
                 keyExtractor={item => item.paletteName}
                 refreshing={isRefreshing}
                 onRefresh={handleRefresh}
+                ListHeaderComponent={<TouchableOpacity style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} onPress={() => { navigation.navigate('Add Palette') }}>
+                    <Text style={{ fontSize: 15, fontWeight: 'bold', padding: 5, color: 'teal', borderColor: 'teal', borderWidth: 1, marginTop: 5 }}> + Add a color scheme </Text>
+                </TouchableOpacity>}
                 renderItem={({ item }) =>
                     <Preview press={() => navigation.navigate('Display', item)} look={item} />}
 
